@@ -55,14 +55,14 @@ def train_model(df):
 # ===== الواجهة بتاعت streamlit =====
 
 st.title("متوقع سعر الآيس كريم")
-st.write("اختار مدينتك وهنقولك الآيس كريم بكام النهارده!")
+st.write("اختار مدينتك وهنقولك الآيس كريم بكام النهارده")
 
 # بقرا الداتا وبدرب الموديل
 df = pd.read_csv("Ice_Cream_Sales_-_temperatures.csv")
 slope, intercept = train_model(df)
 
 # القايمة دي بتخلي اليوزر يختار مدينته
-city = st.selectbox("اختار مدينتك", list(cities.keys()))
+city = st.selectbox("اختار محافطتك", list(cities.keys()))
 
 # لما اليوزر يضغط الزرار
 if st.button("احسب السعر"):
@@ -73,11 +73,11 @@ if st.button("احسب السعر"):
     temp_c, temp_f = get_temperature(lat, lon)
 
     if temp_f is None:
-        st.error("مش قادر يجيب درجة الحرارة دلوقتي، حاول تاني!")
+        st.error("مش قادر يجيب درجة الحرارة دلوقتي، حاول تاني")
     else:
         # معادلة الخط: y = slope * x + intercept
         predicted_price = slope * temp_f + intercept
         predicted_price = round(predicted_price, 2)
 
         st.success(f"درجة الحرارة في {city} دلوقتي: {temp_c}°C")
-        st.metric(label="السعر المتوقع للآيس كريم", value=f"${predicted_price}")
+        st.metric(label="السعر المتوقع للآيس كريم", value=f"EGP {predicted_price} for 1 Boil")
