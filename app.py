@@ -30,7 +30,6 @@ def get_temperature(lat, lon):
     except:
         return None, None
 
-
 # الفانكشن دي بتحسب الـ slope و intercept بتاع الـ linear regression بدون مكتبات
 # المعادلة دي اسمها least squares وبتلاقي افضل خط يمشي على الداتا
 def train_model(df):
@@ -51,18 +50,20 @@ def train_model(df):
 
     return slope, intercept
 
+# الواجهة بتاعت streamlit
 
-# ===== الواجهة بتاعت streamlit =====
-
-st.title("السعر المتوقع للآيس كريم")
+st.title("متوقع سعر الآيس كريم")
 st.write("اختار محافظتك وهنقولك الآيس كريم بكام النهارده")
 
 # بقرا الداتا وبدرب الموديل
-df = pd.read_csv("Ice_Cream_Sales_temperatures.csv")
+df = pd.read_csv("Ice_Cream_Sales_-_temperatures.csv")
 slope, intercept = train_model(df)
 
+# سعر الصرف تقريبي
+USD_TO_EGP = 50
+
 # القايمة دي بتخلي اليوزر يختار مدينته
-city = st.selectbox("اختار محافطتك", list(cities.keys()))
+city = st.selectbox("اختار محافظتك", list(cities.keys()))
 
 # لما اليوزر يضغط الزرار
 if st.button("احسب السعر"):
@@ -76,8 +77,11 @@ if st.button("احسب السعر"):
         st.error("مش قادر يجيب درجة الحرارة دلوقتي، حاول تاني")
     else:
         # معادلة الخط: y = slope * x + intercept
-        predicted_price = slope * temp_f + intercept
-        predicted_price = round(predicted_price, 2)
+        predicted_price_usd = slope * temp_f + intercept
+
+        # بحول السعر من دولار لجنيه
+        predicted_price_egp = round(predicted_price_usd * USD_TO_EGP, 2)
 
         st.success(f"درجة الحرارة في {city} دلوقتي: {temp_c}°C")
-        st.metric(label="السعر المتوقع للآيس كريم", value=f"EGP {predicted_price} for 1 Boil")
+        st.metric(label="السعر المتوقع للآيس كريم", value=f"EGP {predicted_price_egp}")
+        st.caption("السعر تقريبي بناءً على درجة الحرارة")
