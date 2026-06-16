@@ -55,10 +55,10 @@ def train_model(df):
 # ===== الواجهة بتاعت streamlit =====
 
 st.title("السعر المتوقع للآيس كريم")
-st.write("اختار مدينتك وهنقولك الآيس كريم بكام النهارده")
+st.write("اختار محافظتك وهنقولك الآيس كريم بكام النهارده")
 
 # بقرا الداتا وبدرب الموديل
-df = pd.read_csv("Ice_Cream_Sales_-_temperatures.csv")
+df = pd.read_csv("Ice_Cream_Sales_temperatures.csv")
 slope, intercept = train_model(df)
 
 # القايمة دي بتخلي اليوزر يختار مدينته
