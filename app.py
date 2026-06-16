@@ -56,7 +56,7 @@ st.title("متوقع سعر الآيس كريم")
 st.write("اختار محافظتك وهنقولك الآيس كريم بكام النهارده")
 
 # بقرا الداتا وبدرب الموديل
-df = pd.read_csv("Ice_Cream_Sales_-_temperatures.csv")
+df = pd.read_csv("Ice_Cream_Sales_temperatures.csv")
 slope, intercept = train_model(df)
 
 # سعر الصرف تقريبي
